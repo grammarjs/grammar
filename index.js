@@ -39,7 +39,13 @@ operatorRegExp = new RegExp('(' + propertyRegExp.source + ') *(' + operatorRegEx
  */
 
 function expression(val) {
-  return Function('scope', '  return ' + parseExpression(val));
+  // property used in this expression.
+  var deps = {};
+  var fn = Function('scope', '  return ' + parseExpression(val, deps));
+  var keys = [];
+  for (var key in deps) keys.push(key);
+  fn.deps = keys;
+  return fn;
 }
 
 function filterExpression(val) {
@@ -51,11 +57,11 @@ function filterExpression(val) {
   return val
 }
 
-function parseExpression(val) {
-  return keyValueExpression(val)
-    || fnExpression(val)
-    || operatorExpression(val)
-    || propertyExpression(val);
+function parseExpression(val, deps) {
+  return keyValueExpression(val, deps)
+    || fnExpression(val, deps)
+    || operatorExpression(val, deps)
+    || propertyExpression(val, deps);
 }
 
 // <input on-keypress="enter:createTodo">
@@ -67,52 +73,53 @@ function keyValueExpression(val) {
 }
 
 // <input on-keypress="create(todo)">
-function fnExpression(val) {
+function fnExpression(val, deps) {
   if (!val.match(fnRegExp)) return;
 
   var name = RegExp.$1;
   var args = RegExp.$2;
   
   if (args) {
-    return "scope.call('" + name + "', " + argumentsExpression(args) + ")";
+    return "scope.call('" + name + "', " + argumentsExpression(args, deps) + ")";
   } else {
     return "scope.call('" + name + "')";
   }
 }
 
-function argumentsExpression(val) {
+function argumentsExpression(val, deps) {
   val = val.split(/ *, */);
   var result = [];
   for (var i = 0, n = val.length; i < n; i ++) {
     // XXX: special cases: `i`, `event`, `this`.
-    result.push(parseExpression(val[i]));
+    result.push(parseExpression(val[i], deps));
   }
   return result.join(', ');
 }
 
-function operatorExpression(val) {
+function operatorExpression(val, deps) {
   if (!val.match(operatorRegExp)) return;
 
   var left = RegExp.$1;
   var operator = RegExp.$2;
   var right = RegExp.$3;
 
-  var code = parseExpression(left)
+  var code = parseExpression(left, deps)
     + ' ' + operator + ' '
-    + parseExpression(right);
+    + parseExpression(right, deps);
 
   return code;
 }
 
-function propertyExpression(val) {
-  return numberExpression(val)
-    || pathExpression(val);
+function propertyExpression(val, deps) {
+  return numberExpression(val, deps)
+    || pathExpression(val, deps);
 }
 
-function numberExpression(val) {
+function numberExpression(val, deps) {
   if (val.match(numberRegExp)) return val;
 }
 
-function pathExpression(val) {
+function pathExpression(val, deps) {
+  deps[val] = true;
   return "scope.get('" + val + "')";
 }

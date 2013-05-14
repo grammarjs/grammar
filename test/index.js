@@ -43,10 +43,10 @@ describe('expression', function(){
   });
 
   it('should parse attribute', function(){
-    var fn = expression('createTodo');
+    var fn = expression('todo');
     var string = [
         "function anonymous(scope) {"
-      , "  return scope.get('createTodo')"
+      , "  return scope.get('todo')"
       , "}"
     ].join('\n');
     assert(string === fn.toString());
@@ -80,6 +80,21 @@ describe('expression', function(){
 
       var ctx = scopes('todo').init({ todo: { title: 'A todo!' }});
       fn(ctx);
+    });
+  });
+
+  describe('dependencies', function(){
+    it('should collect the property dependencies referenced', function(){
+      var fn = expression('create(todo)');
+      assert('todo' === fn.deps.join(','));
+      var fn = expression('create(todo, event)');
+      assert('todo,event' === fn.deps.join(','));
+      var fn = expression('todo && event');
+      assert('todo,event' === fn.deps.join(','));
+      var fn = expression('todo || event');
+      assert('todo,event' === fn.deps.join(','));
+      var fn = expression('todos.length > 10');
+      assert('todos.length' === fn.deps.join(','));
     });
   });
 });
