@@ -78,8 +78,15 @@ describe('expression', function(){
           done();
         });
 
-      var ctx = scopes('todo').init({ todo: { title: 'A todo!' }});
+      var ctx = scopes('todo').init({ todo: { title: 'A todo!' } });
       fn(ctx);
+    });
+  });
+
+  describe('options', function(){
+    it('should parse options', function(){
+      var fn = expression('todo in todos [max:10, buffer:5]');
+      assert('{"max":10,"buffer":5}' === JSON.stringify(fn.opts));
     });
   });
 

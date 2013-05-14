@@ -18,10 +18,13 @@ module.exports = expression;
  * RegExps.
  */
 
-var filterRegExp = / +| +/;
+var filterRegExp = / +| +/g;
 var fnRegExp = /(\w+)\(([^\)]*)\)/;
-var numberRegExp = /^\d+(?:\.\d+)*$/
-var propertyRegExp = /[\w\d\.]+/
+var numberRegExp = /^\d+(?:\.\d+)*$/;
+var propertyRegExp = /[\w\d\.]+/;
+var optionsRegExp = /(.*)\[([^\[\]]+)\]/;
+var argsRegExp = / *, */g;
+var keyValueRegExp = /(\w+)*: *(\w+)/;
 var operatorRegExp = [];
 for (var i = 0, n = operator.collection.length; i < n; i++) {
   operatorRegExp.push(escapeRegExp(operator.collection[i]));
@@ -42,9 +45,12 @@ function expression(val) {
   // property used in this expression.
   var deps = {};
   var fn = Function('scope', '  return ' + parseExpression(val, deps));
+  var options = deps._options;
+  delete deps._options;
   var keys = [];
   for (var key in deps) keys.push(key);
   fn.deps = keys;
+  fn.opts = options;
   return fn;
 }
 
@@ -58,18 +64,33 @@ function filterExpression(val) {
 }
 
 function parseExpression(val, deps) {
-  return keyValueExpression(val, deps)
+  return optionsExpression(val, deps)
     || fnExpression(val, deps)
     || operatorExpression(val, deps)
     || propertyExpression(val, deps);
 }
 
+function optionsExpression(val, deps) {
+  if (!val.match(optionsRegExp)) return;
+  var code = parseExpression(RegExp.$1, deps);
+  val = RegExp.$2.split(argsRegExp);
+  var options = {};
+  for (var i = 0, n = val.length; i < n; i++) {
+    keyValueExpression(val[i], options);
+  }
+  deps._options = options;
+  return code;
+}
+
 // <input on-keypress="enter:createTodo">
 // <input on-keypress="enter : createTodo">
 // <input on-keypress="enter:create(todo)">
-function keyValueExpression(val) {
+function keyValueExpression(val, options) {
   // XXX: todo
   // val.match(fnRegExp);
+  if (!val.match(keyValueRegExp)) return;
+  val = RegExp.$2;
+  options[RegExp.$1] = numberExpression(val) || val;
 }
 
 // <input on-keypress="create(todo)">
@@ -87,7 +108,7 @@ function fnExpression(val, deps) {
 }
 
 function argumentsExpression(val, deps) {
-  val = val.split(/ *, */);
+  val = val.split(argsRegExp);
   var result = [];
   for (var i = 0, n = val.length; i < n; i ++) {
     // XXX: special cases: `i`, `event`, `this`.
@@ -116,7 +137,7 @@ function propertyExpression(val, deps) {
 }
 
 function numberExpression(val, deps) {
-  if (val.match(numberRegExp)) return val;
+  if (val.match(numberRegExp)) return parseFloat(val);
 }
 
 function pathExpression(val, deps) {
