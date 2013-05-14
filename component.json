@@ -8,7 +8,7 @@
     "tower/operator": "*",
     "tower/filter": "*",
     "tower/scope": "*",
-    "component/escape-regexp"
+    "component/escape-regexp": "*"
   },
   "development": {
     "component/assert": "*",
