@@ -84,6 +84,7 @@ function argumentsExpression(val) {
   val = val.split(/ *, */);
   var result = [];
   for (var i = 0, n = val.length; i < n; i ++) {
+    // XXX: special cases: `i`, `event`, `this`.
     result.push(parseExpression(val[i]));
   }
   return result.join(', ');
