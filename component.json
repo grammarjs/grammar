@@ -6,7 +6,9 @@
   "keywords": [],
   "dependencies": {
     "tower/operator": "*",
-    "tower/filter": "*"
+    "tower/filter": "*",
+    "tower/scope": "*",
+    "component/escape-regexp"
   },
   "development": {
     "component/assert": "*",
