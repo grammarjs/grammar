@@ -1,0 +1,17 @@
+{
+  "name": "tower-expression",
+  "repo": "tower/expression",
+  "description": "Tower Expression component",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "tower/operator": "*",
+    "tower/filter": "*"
+  },
+  "development": {
+    "component/assert": "*",
+    "visionmedia/mocha": "*"
+  },
+  "scripts": ["index.js"],
+  "license": "MIT"
+}
