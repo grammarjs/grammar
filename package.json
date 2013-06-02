@@ -1,11 +1,10 @@
 {
   "name": "tower-expression",
-  "version": "0.0.1",
+  "version": "0.1.0pre",
   "main": "./index.js",
   "dependencies": {
-    "tower-operator": "*",
-    "tower-filter": "*",
-    "tower-scope": "*",
+    "tower-operator": "0.1.0pre",
+    "tower-content": "0.1.0pre",
     "escape-regexp-component": "~1.0.2"
   }
 }

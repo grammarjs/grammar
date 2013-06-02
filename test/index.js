@@ -6,7 +6,7 @@ var assert = 'undefined' == typeof window
   ? require('assert')
   : require('component-assert');
 
-var scopes = require('tower-scope');
+var content = require('tower-content');
 
 describe('expression', function(){
   describe('operators', function(){
@@ -72,13 +72,13 @@ describe('expression', function(){
       ].join('\n');
       assert(string === fn.toString());
 
-      scopes('todo')
+      content('todo')
         .action('create', function(todo){
           assert('A todo!' === todo.title);
           done();
         });
 
-      var ctx = scopes('todo').init({ todo: { title: 'A todo!' } });
+      var ctx = content('todo').init({ todo: { title: 'A todo!' } });
       fn(ctx);
     });
   });

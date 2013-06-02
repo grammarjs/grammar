@@ -2,12 +2,11 @@
   "name": "tower-expression",
   "repo": "tower/expression",
   "description": "Tower Expression component",
-  "version": "0.0.1",
+  "version": "0.1.0pre",
   "keywords": [],
   "dependencies": {
     "tower/operator": "*",
-    "tower/filter": "*",
-    "tower/scope": "*",
+    "tower/content": "*",
     "component/escape-regexp": "*"
   },
   "development": {
