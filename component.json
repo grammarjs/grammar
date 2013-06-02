@@ -13,6 +13,8 @@
     "component/assert": "*",
     "visionmedia/mocha": "*"
   },
-  "scripts": ["index.js"],
+  "scripts": [
+    "index.js"
+  ],
   "license": "MIT"
 }
