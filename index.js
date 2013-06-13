@@ -36,7 +36,7 @@ operatorRegExp = new RegExp('(' + propertyRegExp.source + ') *(' + operatorRegEx
  *
  * XXX: Maybe there are "named" expressions later.
  *
- * @param {String} val
+ * @param {String} val The directive expression string.
  * @return {Function} fn Expression to evaluate
  *    against the current `scope`.
  */
