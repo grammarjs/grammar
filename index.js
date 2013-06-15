@@ -39,6 +39,7 @@ operatorRegExp = new RegExp('(' + propertyRegExp.source + ') *(' + operatorRegEx
  * @param {String} val The directive expression string.
  * @return {Function} fn Expression to evaluate
  *    against the current `scope`.
+ * @api public
  */
 
 function expression(val) {
