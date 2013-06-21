@@ -81,7 +81,7 @@ function optionsExpression(val, deps) {
   var code = parseExpression(RegExp.$1, deps);
   val = RegExp.$2.split(argsRegExp);
   for (var i = 0, n = val.length; i < n; i++) {
-    keyValueExpression(val[i], deps.options);
+    keyValueExpression(val[i], deps);
   }
   return code;
 }
@@ -89,12 +89,12 @@ function optionsExpression(val, deps) {
 // <input on-keypress="enter:createTodo">
 // <input on-keypress="enter : createTodo">
 // <input on-keypress="enter:create(todo)">
-function keyValueExpression(val, options) {
+function keyValueExpression(val, deps) {
   // XXX: todo
   // val.match(fnRegExp);
   if (!val.match(keyValueRegExp)) return;
   val = RegExp.$2;
-  options[RegExp.$1] = numberExpression(val) || val;
+  deps.options[RegExp.$1] = numberExpression(val) || expression(val);
 }
 
 // <input on-keypress="create(todo)">
