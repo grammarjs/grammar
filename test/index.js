@@ -86,23 +86,27 @@ describe('expression', function(){
   describe('bindings', function(){
     it('should handle `+` (to)', function(){
       var fn = expression('[+] title');
-      assert('to' === fn.bind);
+      assert(fn.bindTo);
+      assert(!fn.bindFrom);
     });
 
     it('should handle `-` (from)', function(){
       var fn = expression('[-] title');
-      assert('from' === fn.bind);
+      assert(fn.bindFrom);
+      assert(!fn.bindTo);
     });
 
     it('should handle `=` (both)', function(){
       var fn = expression('[=] title');
-      assert('both' === fn.bind);
+      assert(fn.bindTo);
+      assert(fn.bindFrom);
       assert(false === fn.broadcast);
     });
 
     it('should handle binding with broadcasting', function(){
       var fn = expression('[*=] title');
-      assert('both' === fn.bind);
+      assert(fn.bindTo);
+      assert(fn.bindFrom);
       assert(true === fn.broadcast);
     });
   });

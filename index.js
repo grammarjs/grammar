@@ -47,7 +47,17 @@ function expression(val) {
   // property used in this expression.
   var deps = { options: {} };
   var fn = Function('scope', '  return ' + parseExpression(val, deps));
-  fn.bind = deps.bind;
+  switch (deps.bind) {
+    case 'to':
+      fn.bindTo = true;
+      break;
+    case 'from':
+      fn.bindFrom = true;
+      break;
+    case 'both':
+      fn.bindTo = fn.bindFrom = true;
+      break;
+  }
   fn.broadcast = deps.broadcast;
   var options = deps.options;
   delete deps.options;
