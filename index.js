@@ -162,5 +162,5 @@ function bindingExpression(val, deps) {
   deps.broadcast = '*' === RegExp.$1;
   deps.bind = bindings[RegExp.$2];
 
-  return val;
+  return val.substr(RegExp.lastMatch.length);
 }
