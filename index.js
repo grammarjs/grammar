@@ -45,10 +45,10 @@ operatorRegExp = new RegExp('(' + propertyRegExp.source + ') *(' + operatorRegEx
 
 function expression(val) {
   // property used in this expression.
-  var deps = {};
+  var deps = { options: {} };
   var fn = Function('scope', '  return ' + parseExpression(val, deps));
-  var options = deps._options;
-  delete deps._options;
+  var options = deps.options;
+  delete deps.options;
   var keys = [];
   for (var key in deps) keys.push(key);
   fn.deps = keys;
@@ -70,6 +70,7 @@ function filterExpression(val) {
 function parseExpression(val, deps) {
   // XXX: bindingExpression(val)
   return optionsExpression(val, deps)
+    || keyValueExpression(val, deps)
     || fnExpression(val, deps)
     || operatorExpression(val, deps)
     || propertyExpression(val, deps);
@@ -79,11 +80,9 @@ function optionsExpression(val, deps) {
   if (!val.match(':') || !val.match(optionsRegExp)) return;
   var code = parseExpression(RegExp.$1, deps);
   val = RegExp.$2.split(argsRegExp);
-  var options = {};
   for (var i = 0, n = val.length; i < n; i++) {
-    keyValueExpression(val[i], options);
+    keyValueExpression(val[i], deps.options);
   }
-  deps._options = options;
   return code;
 }
 
