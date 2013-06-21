@@ -19,6 +19,7 @@ module.exports = expression;
  */
 
 var filterRegExp = / +| +/g;
+var bindingRegExp = /^ *\[(\*)?([+-=])\] */;
 var fnRegExp = /(\w+)\(([^\)]*)\)/;
 var numberRegExp = /^\d+(?:\.\d+)*$/;
 var propertyRegExp = /[\w\d\.]+/;
@@ -51,6 +52,8 @@ function expression(val) {
   for (var key in deps) keys.push(key);
   fn.deps = keys;
   fn.opts = options;
+  fn.bind = deps.bind;
+  fn.broadcast = deps.broadcast;
   return fn;
 }
 
@@ -64,6 +67,7 @@ function filterExpression(val) {
 }
 
 function parseExpression(val, deps) {
+  // XXX: bindingExpression(val)
   return optionsExpression(val, deps)
     || fnExpression(val, deps)
     || operatorExpression(val, deps)
@@ -71,7 +75,7 @@ function parseExpression(val, deps) {
 }
 
 function optionsExpression(val, deps) {
-  if (!val.match(optionsRegExp)) return;
+  if (!val.match(':') || !val.match(optionsRegExp)) return;
   var code = parseExpression(RegExp.$1, deps);
   val = RegExp.$2.split(argsRegExp);
   var options = {};
@@ -132,6 +136,7 @@ function operatorExpression(val, deps) {
 }
 
 function propertyExpression(val, deps) {
+  val = bindingExpression(val, deps);
   return numberExpression(val, deps)
     || pathExpression(val, deps);
 }
@@ -143,4 +148,19 @@ function numberExpression(val, deps) {
 function pathExpression(val, deps) {
   deps[val] = true;
   return "scope.get('" + val + "')";
+}
+
+var bindings = {
+  '=': 'both',
+  '+': 'to',
+  '-': 'from'
+};
+
+function bindingExpression(val, deps) {
+  if (!val.match(bindingRegExp)) return val;
+
+  deps.broadcast = '*' === RegExp.$1;
+  deps.bind = bindings[RegExp.$2];
+
+  return val;
 }

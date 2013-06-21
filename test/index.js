@@ -83,6 +83,30 @@ describe('expression', function(){
     });
   });
 
+  describe('bindings', function(){
+    it('should handle `+` (to)', function(){
+      var fn = expression('[+] title');
+      assert('to' === fn.bind);
+    });
+
+    it('should handle `-` (from)', function(){
+      var fn = expression('[-] title');
+      assert('from' === fn.bind);
+    });
+
+    it('should handle `=` (both)', function(){
+      var fn = expression('[=] title');
+      assert('both' === fn.bind);
+      assert(false === fn.broadcast);
+    });
+
+    it('should handle binding with broadcasting', function(){
+      var fn = expression('[*=] title');
+      assert('both' === fn.bind);
+      assert(true === fn.broadcast);
+    });
+  });
+
   describe('options', function(){
     it('should parse options', function(){
       var fn = expression('todo in todos [max:10, buffer:5]');
