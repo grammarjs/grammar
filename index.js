@@ -81,6 +81,7 @@ function filterExpression(val) {
 
 function parseExpression(val, deps) {
   // XXX: bindingExpression(val)
+  val = bindingExpression(val, deps);
   return optionsExpression(val, deps)
     || keyValueExpression(val, deps)
     || fnExpression(val, deps)
@@ -90,6 +91,7 @@ function parseExpression(val, deps) {
 
 function optionsExpression(val, deps) {
   if (!val.match(':') || !val.match(optionsRegExp)) return;
+
   var code = parseExpression(RegExp.$1, deps);
   val = RegExp.$2.split(argsRegExp);
   for (var i = 0, n = val.length; i < n; i++) {
@@ -148,7 +150,6 @@ function operatorExpression(val, deps) {
 }
 
 function propertyExpression(val, deps) {
-  val = bindingExpression(val, deps);
   return numberExpression(val, deps)
     || pathExpression(val, deps);
 }
