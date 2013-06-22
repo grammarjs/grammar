@@ -30,7 +30,7 @@ var operatorRegExp = [];
 for (var i = 0, n = operator.collection.length; i < n; i++) {
   operatorRegExp.push(escapeRegExp(operator.collection[i]));
 }
-operatorRegExp = new RegExp('(' + propertyRegExp.source + ') *(' + operatorRegExp.join('|') + ') *(' + propertyRegExp.source + ')');
+operatorRegExp = new RegExp('(' + propertyRegExp.source + ') +(' + operatorRegExp.join('|') + ') +(' + propertyRegExp.source + ')');
 
 /**
  * Parse a directive expression.
