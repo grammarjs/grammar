@@ -1,10 +1,14 @@
 {
   "name": "tower-expression",
-  "version": "0.1.0pre2",
+  "version": "0.1.0",
   "main": "./index.js",
   "dependencies": {
-    "tower-operator": "0.1.0pre",
-    "tower-content": "*",
+    "tower-operator": "~0.1.0",
+    "tower-content": "~0.1.0",
     "escape-regexp-component": "~1.0.2"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "http://github.com/tower/expression.git"
   }
 }
