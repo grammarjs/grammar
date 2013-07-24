@@ -2,16 +2,11 @@
   "name": "tower-expression",
   "repo": "tower/expression",
   "description": "Tower Expression component",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "keywords": [],
-  "dependencies": {
-    "tower/operator": "0.2.1",
-    "component/escape-regexp": "*"
-  },
   "development": {
     "component/assert": "*",
-    "visionmedia/mocha": "*",
-    "tower/content": "0.1.2"
+    "visionmedia/mocha": "*"
   },
   "scripts": [
     "index.js"

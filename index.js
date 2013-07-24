@@ -3,177 +3,285 @@
  * Module dependencies.
  */
 
-var operator = require('tower-operator')
-  , escapeRegExp = 'undefined' === typeof window
-    ? require('escape-regexp-component')
-    : require('escape-regexp');
+var slice = [].slice;
 
 /**
  * Expose `expression`.
  */
 
-module.exports = expression;
+exports = module.exports = expression;
 
 /**
- * RegExps.
+ * Expose `collection`.
  */
 
-var filterRegExp = / +| +/g;
-var bindingRegExp = /^ *\[(\*)?([+-=])\] */;
-var fnRegExp = /(\w+)\(([^\)]*)\)/;
-var numberRegExp = /^\d+(?:\.\d+)*$/;
-var propertyRegExp = /[\w\d\.]+/;
-var optionsRegExp = /(.*)\[([^\[\]]+)\]/;
-var argsRegExp = / *, */g;
-var keyValueRegExp = /(\w+)*: *(\w+)/;
-var operatorRegExp = [];
-for (var i = 0, n = operator.collection.length; i < n; i++) {
-  operatorRegExp.push(escapeRegExp(operator.collection[i]));
-}
-operatorRegExp = new RegExp('(' + propertyRegExp.source + ') +(' + operatorRegExp.join('|') + ') +(' + propertyRegExp.source + ')');
+exports.collection = {};
 
 /**
- * Parse a directive expression.
+ * Get or define an expression.
  *
- * XXX: Maybe there are "named" expressions later.
- *
- * @param {String} val The directive expression string.
- * @return {Function} fn Expression to evaluate
- *    against the current `scope`.
+ * @param {String} name
+ * @return {Expression}
  * @api public
  */
 
-function expression(val) {
-  // property used in this expression.
-  var deps = { options: {} };
-  var fn = Function('scope', '  return ' + parseExpression(val, deps));
-  switch (deps.bind) {
-    case 'to':
-      fn.bindTo = true;
-      break;
-    case 'from':
-      fn.bindFrom = true;
-      break;
-    case 'both':
-      fn.bindTo = fn.bindFrom = true;
-      break;
-  }
-  fn.broadcast = deps.broadcast;
-  var options = deps.options;
-  delete deps.options;
-  delete deps.bind;
-  delete deps.broadcast;
-  var keys = [];
-  for (var key in deps) keys.push(key);
-  fn.deps = keys;
-  fn.opts = options;
-  return fn;
+function expression(name) {
+  return exports.has(name)
+    ? exports.collection[name]
+    : exports.collection[name] = new Expression(name);
 }
 
-function filterExpression(val) {
-  val = val.split(filterRexExp);
-  for (var i = 0, n = val.length; i < n; i++) {
-    // XXX
-    // val[i] = x
-  }
-  return val
-}
+/**
+ * Check if expression exists.
+ *
+ * @param {String} name
+ * @return {Boolean}
+ * @api public
+ */
 
-function parseExpression(val, deps) {
-  // XXX: bindingExpression(val)
-  val = bindingExpression(val, deps);
-  return optionsExpression(val, deps)
-    || keyValueExpression(val, deps)
-    || fnExpression(val, deps)
-    || operatorExpression(val, deps)
-    || propertyExpression(val, deps);
-}
-
-function optionsExpression(val, deps) {
-  if (!val.match(':') || !val.match(optionsRegExp)) return;
-
-  var code = parseExpression(RegExp.$1, deps);
-  val = RegExp.$2.split(argsRegExp);
-  for (var i = 0, n = val.length; i < n; i++) {
-    keyValueExpression(val[i], deps);
-  }
-  return code;
-}
-
-// <input on-keypress="enter:createTodo">
-// <input on-keypress="enter : createTodo">
-// <input on-keypress="enter:create(todo)">
-function keyValueExpression(val, deps) {
-  // XXX: todo
-  // val.match(fnRegExp);
-  if (!val.match(keyValueRegExp)) return;
-  val = RegExp.$2;
-  deps.options[RegExp.$1] = numberExpression(val) || expression(val);
-}
-
-// <input on-keypress="create(todo)">
-function fnExpression(val, deps) {
-  if (!val.match(fnRegExp)) return;
-
-  var name = RegExp.$1;
-  var args = RegExp.$2;
-  
-  if (args) {
-    return "scope.call('" + name + "', " + argumentsExpression(args, deps) + ")";
-  } else {
-    return "scope.call('" + name + "')";
-  }
-}
-
-function argumentsExpression(val, deps) {
-  val = val.split(argsRegExp);
-  var result = [];
-  for (var i = 0, n = val.length; i < n; i ++) {
-    // XXX: special cases: `i`, `event`, `this`.
-    result.push(parseExpression(val[i], deps));
-  }
-  return result.join(', ');
-}
-
-function operatorExpression(val, deps) {
-  if (!val.match(operatorRegExp)) return;
-
-  var left = RegExp.$1;
-  var operator = RegExp.$2;
-  var right = RegExp.$3;
-
-  var code = parseExpression(left, deps)
-    + ' ' + operator + ' '
-    + parseExpression(right, deps);
-
-  return code;
-}
-
-function propertyExpression(val, deps) {
-  return numberExpression(val, deps)
-    || pathExpression(val, deps);
-}
-
-function numberExpression(val, deps) {
-  if (val.match(numberRegExp)) return parseFloat(val);
-}
-
-function pathExpression(val, deps) {
-  deps[val] = true;
-  return "scope.get('" + val + "')";
-}
-
-var bindings = {
-  '=': 'both',
-  '+': 'to',
-  '-': 'from'
+exports.has = function(name) {
+  return exports.collection.hasOwnProperty(name);
 };
 
-function bindingExpression(val, deps) {
-  if (!val.match(bindingRegExp)) return val;
+/**
+ * Instantiate a new `Expression`.
+ *
+ * @api private
+ */
 
-  deps.broadcast = '*' === RegExp.$1;
-  deps.bind = bindings[RegExp.$2];
+function Expression(name) {
+  this.name = name;
+  this.matchers = [];
+}
 
-  return val.substr(RegExp.lastMatch.length);
+/**
+ * Patterns to match against.
+ *
+ * @chainable
+ * @api public
+ */
+
+Expression.prototype.match = function(){
+  var args = slice.call(arguments);
+  
+  // function to return match result
+  var fn = 'function' === typeof args[args.length - 1]
+    ? args.pop()
+    : identityFn;
+
+  args = normalize(args);
+
+  // final function
+
+  function exec(str, data) {
+    var result = [];
+    // going to set back to initial pos if it doesn't match.
+    var pos = data.pos;
+    for (var i = 0, n = args.length; i < n; i++) {
+      var val = args[i](str, data);
+      if (null == val) {
+        // set it back to original since it failed.
+        data.pos = pos;
+        return;
+      }
+      result.push(val);
+    }
+    return fn.apply(this, result);
+  }
+
+  this.matchers.push(exec);
+  
+  return this;
+};
+
+/**
+ * Parse input string into object
+ * using all of the expression's matchers.
+ *
+ * @param {String} str Input string.
+ * @param {Function} [fn] Callback function.
+ * @api public
+ */
+
+Expression.prototype.parse = function(str, fn){
+  var data = { pos: 0, failures: 0 };
+  var result = this._parse(str, data);
+  if (data.pos < str.length) {
+    var val = str.length > 20 ? str.substr(data.pos, 20) + '...' : str;
+    var msg = 'Expected end of input but "' + val + '" found';
+    var err = new SyntaxError(msg);
+    if (fn) return fn(err);
+    throw err;
+  }
+  return result;
+};
+
+/**
+ * Internal parse.
+ *
+ * @param {String} str Input string.
+ * @param {Object} [data] Parent (starting) expression data.
+ * @api private
+ */
+
+Expression.prototype._parse = function(str, data){
+  var matchers = this.matchers;
+  var result;
+
+  for (var i = 0, n = matchers.length; i < n; i++) {
+    result = matchers[i](str, data);
+    // blank string '' also counts
+    if (result != null) return result;
+  }
+};
+
+/**
+ * Function returning its parameter.
+ *
+ * @param {Mixed} val
+ * @return {Mixed} val
+ * @api private
+ */
+
+function identityFn(val) {
+  // return slice.call(arguments);
+  return val;
+}
+
+/**
+ * Return's a function to match exact
+ * string against input string starting at 
+ * parser's current position.
+ *
+ * @param {String} val
+ * @return {Function} exec
+ * @api private
+ */
+
+function stringFn(val) {
+  var len = val.length;
+
+  function exec(str, data) {
+    if (val === str.substr(data.pos, len)) {
+      data.pos += len;
+      return val;
+    }
+  }
+
+  return exec;
+}
+
+/**
+ * RegExp function.
+ *
+ * @param {String} val
+ * @return {Function} exec
+ * @api private
+ */
+
+function regExpFn(val) {
+  var val = val.source;
+  var oneOrMore = '+' === val.substr(-1);
+  var zeroOrMore = '*' === val.substr(-1);
+  var many = oneOrMore || zeroOrMore;
+  //var optional = '?' === val.substr(-1);
+  if (many) val = val.substr(0, val.length - 1);
+  var pattern = new RegExp(val);
+
+  if (many) {
+    var exec = function exec(str, data) {
+      var result = [];
+      while (pattern.test(str.charAt(data.pos))) {
+        result.push(str.charAt(data.pos));
+        data.pos++;
+      }
+
+      return result.length
+        ? result.join('')
+        : (zeroOrMore ? '' : undefined);
+    }
+  } else {
+    var exec = function exec(str, data) {
+      if (pattern.test(str.charAt(data.pos))) {
+        data.pos++;
+        return str.charAt(data.pos - 1);
+      }
+    }
+  }
+
+  return exec;
+}
+
+/**
+ * Return's a function to execute a named expression
+ * on the input string.
+ *
+ * @param {String} val Name of expression
+ * @return {Function} exec
+ * @api private
+ */
+
+function namedFn(val) {
+  var name = val.split(':')[1];
+  var oneOrMore = '+' === name.substr(-1);
+  var zeroOrMore = '*' === name.substr(-1);
+  var many = oneOrMore || zeroOrMore;
+  var optional = '?' === name.substr(-1);
+  if (many || optional)
+    name = name.substr(0, name.length - 1);
+  
+  if (many) {
+    return function exec(str, data) {
+      var results = [];
+      var result = expression(name)._parse(str, data);
+      
+      while (result != null) {
+        results.push(result);
+        result = expression(name)._parse(str, data);
+      }
+
+      return results;
+      // XXX: 1 or more, but length is zero case.
+    }
+  } else {
+    return function exec(str, data) {
+      var result = expression(name)._parse(str, data);
+      return result;
+      //return result
+      //  ? result
+      //  : (optional ? '' : result);
+    }
+  }
+}
+
+/**
+ * Convert `.match` arguments into a standard format.
+ *
+ * @param {Array} args
+ * @api private
+ */
+
+function normalize(args) {
+  for (var i = 0, n = args.length; i < n; i++) {
+    var val = args[i];
+    
+    // XXX: here we go through all the parsing expression types:
+    // https://github.com/dmajda/pegjs#parsing-expression-types
+
+    if (val.source) {
+      // val instanceof RegExp
+      val = regExpFn(val);
+    } else if (/^:\w/.test(val)) {
+      // :named-expression
+      val = namedFn(val);
+    } else {
+      // exact match
+      val = stringFn(val);
+    }
+
+    // set it to the compiled val
+    args[i] = val;
+  }
+
+  return args;
 }
