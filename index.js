@@ -181,10 +181,10 @@ function stringFn(val) {
 
 function regExpFn(val) {
   var val = val.source;
-  var oneOrMore = '+' === val.substr(-1);
-  var zeroOrMore = '*' === val.substr(-1);
+  var oneOrMore = '+' === val.substr(val.length - 1);
+  var zeroOrMore = '*' === val.substr(val.length - 1);
   var many = oneOrMore || zeroOrMore;
-  //var optional = '?' === val.substr(-1);
+  //var optional = '?' === val.substr(val.length - 1);
   if (many) val = val.substr(0, val.length - 1);
   var pattern = new RegExp(val);
 
@@ -223,10 +223,10 @@ function regExpFn(val) {
 
 function namedFn(val) {
   var name = val.split(':')[1];
-  var oneOrMore = '+' === name.substr(-1);
-  var zeroOrMore = '*' === name.substr(-1);
+  var oneOrMore = '+' === name.substr(name.length - 1);
+  var zeroOrMore = '*' === name.substr(name.length - 1);
   var many = oneOrMore || zeroOrMore;
-  var optional = '?' === name.substr(-1);
+  var optional = '?' === name.substr(name.length - 1);
   if (many || optional)
     name = name.substr(0, name.length - 1);
   
