@@ -4,6 +4,13 @@
  */
 
 var slice = [].slice;
+var toString = Object.prototype.toString;
+var isFunction = function(val) {
+  return '[object Function]' === toString.call(val);
+};
+var isRegExp = function(val) {
+  return '[object RegExp]' === toString.call(val);
+};
 
 /**
  * Expose `expression`.
@@ -65,7 +72,7 @@ Expression.prototype.match = function(){
   var args = slice.call(arguments);
   
   // function to return match result
-  var fn = 'function' === typeof args[args.length - 1]
+  var fn = isFunction(args[args.length - 1])
     ? args.pop()
     : identityFn;
 
