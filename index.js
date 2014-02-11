@@ -13,51 +13,20 @@ var isRegExp = function(val) {
 };
 
 /**
- * Expose `expression`.
+ * Expose `Expression`.
  */
 
-exports = module.exports = expression;
-
-/**
- * Expose `collection`.
- */
-
-exports.collection = {};
-
-/**
- * Get or define an expression.
- *
- * @param {String} name
- * @return {Expression}
- * @api public
- */
-
-function expression(name) {
-  return exports.has(name)
-    ? exports.collection[name]
-    : exports.collection[name] = new Expression(name);
-}
-
-/**
- * Check if expression exists.
- *
- * @param {String} name
- * @return {Boolean}
- * @api public
- */
-
-exports.has = function(name) {
-  return exports.collection.hasOwnProperty(name);
-};
+module.exports = Expression;
 
 /**
  * Instantiate a new `Expression`.
  *
- * @api private
+ * @param {String} [name] Name it if you want.
+ * @api public
  */
 
 function Expression(name) {
-  this.name = name;
+  if (name) this.name = name;
   this.matchers = [];
 }
 

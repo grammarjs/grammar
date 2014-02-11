@@ -1,54 +1,33 @@
-# Tower Expression
+# Expression Builder
+
+PEG-like expression builder for JavaScript. <1kb.
 
 ## Installation
 
-node.js:
-
-```bash
-$ npm install tower-expression
+```
+npm install expressionjs-expression
 ```
 
 browser:
 
-```bash
-$ component install tower/expression
+```
+component install expressionjs/expression
 ```
 
 ## Examples
 
 ```js
-var expression = require('tower-expression');
+var Expression = require('expression');
 ```
 
 Simple expression:
 
 ```js
-var fn = expression('1 + 1');
-fn();
-```
-
-Expression evaluated against `scope`:
-
-```js
-var scopes = require('tower-scope');
-
-// define some scope attributes used in the DOM.
-scopes('dashboard')
-  .attr('profit', 'float', 0.0);
-
-// instantiate the scope
-var scope = scopes('dashboard').init({ profit: 1000000 });
-
-// define a `currency` filter
-var filter = require('tower-filter');
-filter('currency', function(val){
-  return '$' + val + '.00';
+var exp = new Expression;
+exp.match(/\d+/, ' ', '*', ' ', \d+, function(left, $2, operator, $4, right){
+  return left * right;
 });
-
-// define an expression
-// (this automatically gets generated from dom directives)
-var fn = expression('profit | currency');
-fn(scope); // $1,000,000.00
+var val = exp.parse('6 * 8'); // 42
 ```
 
 ## Licence

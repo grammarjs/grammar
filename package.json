@@ -1,9 +1,9 @@
 {
-  "name": "tower-expression",
-  "version": "0.1.3",
+  "name": "expressionjs-expression",
+  "version": "0.0.1",
   "main": "./index.js",
   "repository": {
     "type" : "git",
-    "url" : "http://github.com/tower/expression.git"
+    "url" : "http://github.com/expressionjs/expression.git"
   }
 }

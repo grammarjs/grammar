@@ -1,9 +1,9 @@
 {
-  "name": "tower-expression",
-  "repo": "tower/expression",
-  "description": "Tower Expression component",
+  "name": "expression",
+  "repo": "expressionjs/expression",
+  "description": "Expression parser",
   "version": "0.1.3",
-  "keywords": [],
+  "keywords": ["peg", "parsing", "expression", "grammar"],
   "development": {
     "component/assert": "*",
     "visionmedia/mocha": "*"
