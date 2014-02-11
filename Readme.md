@@ -24,10 +24,10 @@ Simple expression:
 
 ```js
 var exp = new Expression;
-exp.match(/\d+/, ' ', '*', ' ', \d+, function(left, $2, operator, $4, right){
+exp.match(/[0-9]+/, '*', /[0-9]+/, function(left, times, right){
   return left * right;
 });
-var val = exp.parse('6 * 8'); // 42
+var val = exp.parse('6*8'); // 42
 ```
 
 ## Licence
