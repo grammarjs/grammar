@@ -30,6 +30,7 @@ function Expression(name) {
   this.name = name;
   this.matchers = [];
   this.children = {};
+  this.expression = this.expression.bind(this);
 }
 
 /**
@@ -42,6 +43,19 @@ function Expression(name) {
 
 Expression.prototype.use = function(exp){
   this.children[exp.name] = exp;
+  return this;
+};
+
+/**
+ * Create a sub-expression.
+ *
+ * @param {String} name
+ * @return {Expression}
+ */
+
+Expression.prototype.expression = function(name){
+  var exp = new Expression(name);
+  this.use(exp);
   return this;
 };
 

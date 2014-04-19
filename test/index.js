@@ -27,6 +27,19 @@ describe('expression', function(){
     assert(3 === val);
   });
 
+  it('should define sub-expressions', function(){
+    var grammar = new Expression('math');
+    var expression = grammar.expression;
+
+    expression('plus').match('+');
+    expression('numb').match(/\d/);
+    grammar.match(':numb', ':plus', ':numb', addition);
+
+    var val = grammar.parse('1+2');
+    console.log(val);
+    //assert(3 === val);
+  });
+
   // it('should define grammar');
 });
 
