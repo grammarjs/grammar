@@ -1,28 +1,23 @@
-# Expression Builder
+# Expression
 
 PEG-like expression builder for JavaScript. <1kb.
 
 ## Installation
 
 ```
-npm install expressionjs-expression
+npm install parsejs-expression
 ```
 
 browser:
 
 ```
-component install expressionjs/expression
+component install parsejs/expression
 ```
 
 ## Examples
 
 ```js
 var Expression = require('expression');
-```
-
-Simple expression:
-
-```js
 var exp = new Expression;
 exp.match(/[0-9]+/, '*', /[0-9]+/, function(left, times, right){
   return left * right;

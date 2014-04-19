@@ -1,9 +1,9 @@
 {
-  "name": "expressionjs-expression",
+  "name": "parsejs-expression",
   "version": "0.0.1",
   "main": "./index.js",
   "repository": {
     "type" : "git",
-    "url" : "http://github.com/expressionjs/expression.git"
+    "url" : "http://github.com/parsejs/expression.git"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "expression",
-  "repo": "expressionjs/expression",
+  "repo": "parsejs/expression",
   "description": "Expression parser",
   "version": "0.1.3",
   "keywords": ["peg", "parsing", "expression", "grammar"],

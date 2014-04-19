@@ -21,14 +21,29 @@ module.exports = Expression;
 /**
  * Instantiate a new `Expression`.
  *
- * @param {String} [name] Name it if you want.
+ * @param {String} name
  * @api public
  */
 
 function Expression(name) {
-  if (name) this.name = name;
+  if (!name) throw new Error('An expression must have a name');
+  this.name = name;
   this.matchers = [];
+  this.children = {};
 }
+
+/**
+ * Add named expressions to use in matchers.
+ *
+ * @chainable
+ * @param {Expression} exp
+ * @api public
+ */
+
+Expression.prototype.use = function(exp){
+  this.children[exp.name] = exp;
+  return this;
+};
 
 /**
  * Patterns to match against.
@@ -39,6 +54,7 @@ function Expression(name) {
 
 Expression.prototype.match = function(){
   var args = slice.call(arguments);
+  var self = this;
   
   // function to return match result
   var fn = isFunction(args[args.length - 1])
@@ -54,7 +70,7 @@ Expression.prototype.match = function(){
     // going to set back to initial pos if it doesn't match.
     var pos = data.pos;
     for (var i = 0, n = args.length; i < n; i++) {
-      var val = args[i](str, data);
+      var val = args[i].call(self, str, data);
       if (null == val) {
         // set it back to original since it failed.
         data.pos = pos;
@@ -62,7 +78,7 @@ Expression.prototype.match = function(){
       }
       result.push(val);
     }
-    return fn.apply(this, result);
+    return fn.apply(self, result);
   }
 
   this.matchers.push(exec);
@@ -105,7 +121,7 @@ Expression.prototype._parse = function(str, data){
   var result;
 
   for (var i = 0, n = matchers.length; i < n; i++) {
-    result = matchers[i](str, data);
+    result = matchers[i].call(this, str, data);
     // blank string '' also counts
     if (result != null) return result;
   }
@@ -209,11 +225,11 @@ function namedFn(val) {
   if (many) {
     return function exec(str, data) {
       var results = [];
-      var result = expression(name)._parse(str, data);
+      var result = this.children[name]._parse(str, data);
       
       while (result != null) {
         results.push(result);
-        result = expression(name)._parse(str, data);
+        result = this.children[name]._parse(str, data);
       }
 
       return results;
@@ -221,7 +237,7 @@ function namedFn(val) {
     }
   } else {
     return function exec(str, data) {
-      var result = expression(name)._parse(str, data);
+      var result = this.children[name]._parse(str, data);
       return result;
       //return result
       //  ? result
