@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "main": "./index.js",
   "repository": {
-    "type" : "git",
-    "url" : "http://github.com/parsejs/expression.git"
+    "type": "git",
+    "url": "http://github.com/parsejs/expression.git"
+  },
+  "dependencies": {
+    "component-type": "~1.0.0"
   }
 }

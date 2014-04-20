@@ -5,13 +5,13 @@ PEG-like expression builder for JavaScript. <1kb.
 ## Installation
 
 ```
-$ npm install parsejs-expression
+$ npm install parsejs-grammar
 ```
 
 browser:
 
 ```
-$ component install parsejs/expression
+$ component install parsejs/grammar
 ```
 
 ## Features
