@@ -4,7 +4,7 @@
  */
 
 var Expression = require('./lib/expression');
-var Context = require('./lib/context');
+var Parser = require('./lib/parser');
 
 /**
  * Expose `Grammar`.
@@ -24,6 +24,7 @@ function Grammar(name) {
   this.name = name;
   this.expressions = {};
   this.expression = this.expression.bind(this);
+  // this.root = new ExpressionToken(name);
 }
 
 /**
@@ -64,5 +65,5 @@ Grammar.prototype.expression = function(name){
  */
 
 Grammar.prototype.parse = function(str){
-  return (new Context(this)).parse(str);
+  return (new Parser(this)).parse(str);
 };

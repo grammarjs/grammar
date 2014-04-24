@@ -27,33 +27,47 @@ describe('expression', function(){
   //   assert(3 === val);
   // });
 
-  // it('should define sub-expressions', function(){
-  //   var grammar = new Expression('math');
-  //   var expression = grammar.expression;
-
-  //   expression('math').match(':numb', ':plus', ':numb', addition);
-  //   expression('plus').match('+');
-  //   expression('numb').match(/\d/);
-
-  //   var val = grammar.parse('1+2');
-  //   console.log(val);
-  //   //assert(3 === val);
-  // });
-
   it('should define sub-expressions', function(){
+    var grammar = new Expression('math');
+    var expression = grammar.expression;
+
+    expression('math').match(':numb', ':plus', ':numb', addition);
+    expression('plus').match('+', value);
+    expression('numb').match(/\d/, value);
+
+    var val = grammar.parse('1+2');
+    console.log(val);
+    //assert(3 === val);
+  });
+
+  it('should define string expressions', function(){
     var grammar = new Expression('math');
     var expression = grammar.expression;
 
     expression('math').match('1', parseInt);
 
     var val = grammar.parse('1');
-    console.log(val);
-    //assert(3 === val);
+    assert(1 === val);
   });
+
+  // it('should define nested expressions', function(){
+  //   var grammar = new Expression('digits');
+  //   var expression = grammar.expression;
+
+  //   expression('digits').match(':digit+');
+  //   expression('digit').match(/\d/);
+
+  //   var val = grammar.parse('123');
+  //   console.log(val);
+  // });
 
   // it('should define grammar');
 });
 
 function addition($1, $2, $3) {
   return parseInt($1) + parseInt($3);
+}
+
+function value(val) {
+  return val;
 }
