@@ -48,7 +48,6 @@ describe('expression', function(){
       .match(/\d/, value);
 
     var val = grammar.parse('1-2');
-    console.log(val)
     assert(-1 === val);
   });
 
@@ -65,12 +64,10 @@ describe('expression', function(){
 });
 
 function addition($1, $2, $3) {
-  console.log(arguments);
   return parseInt($1) + parseInt($3);
 }
 
 function subtraction($1, $2, $3) {
-  console.log(arguments);
   return parseInt($1) - parseInt($3);
 }
 
