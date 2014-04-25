@@ -51,6 +51,23 @@ describe('expression', function(){
     assert(-1 === val);
   });
 
+  it('should handle :expression+', function(){
+    var grammar = new Expression('math');
+    var expression = grammar.expression;
+
+    expression('math').match(':numb+', ':plus', ':numb+', addition);
+    expression('plus').match('+', value);
+    expression('numb').match(/\d/, value);
+
+    var val = grammar.parse('10+20');
+    assert(30 === val);
+  });
+
+  it('should handle :expression*');
+  it('should handle :expression?');
+  it('should handle :nested:expression');
+  it('should handle /\\d+/');
+
   // it('should define nested expressions', function(){
   //   var grammar = new Expression('digits');
   //   var expression = grammar.expression;
