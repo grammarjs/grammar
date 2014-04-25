@@ -9,7 +9,12 @@
     "visionmedia/mocha": "*"
   },
   "scripts": [
-    "index.js"
+    "index.js",
+    "lib/expression.js",
+    "lib/frame.js",
+    "lib/matcher.js",
+    "lib/parser.js",
+    "lib/token.js"
   ],
   "license": "MIT"
 }
