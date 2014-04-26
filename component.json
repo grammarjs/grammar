@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "keywords": ["peg", "parsing", "expression", "grammar"],
   "dependencies": {
-    "parsejs-expression": "*"
+    "parsejs/expression": "*"
   },
   "development": {
     "component/assert": "*",
