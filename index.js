@@ -46,6 +46,7 @@ Grammar.prototype.use = function(grammar){
  */
 
 Grammar.prototype.expression = function(name){
+  if (this.expressions[name]) return this.expressions[name];
   var exp = new Expression(name);
   this.expressions[exp.name] = exp;
   if (this.name == exp.name) this.root = exp;
