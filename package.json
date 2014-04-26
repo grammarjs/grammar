@@ -1,7 +1,8 @@
 {
   "name": "parsejs-grammar",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "./index.js",
+  "keywords": ["peg", "parsing", "expression", "grammar"],
   "repository": {
     "type": "git",
     "url": "http://github.com/parsejs/grammar.git"
