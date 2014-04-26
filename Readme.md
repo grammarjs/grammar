@@ -32,6 +32,7 @@ You can nest grammars, and so build on top of them easily!
 
 ```js
 var Grammar = require('parsejs-grammar');
+var Parser = require('parsejs-recursive-parser');
 var grammar = new Grammar('math');
 var expression = grammar.expression;
 
@@ -54,7 +55,8 @@ expression('operator')
   .match('*')
   .match('/');
 
-var val = grammar.parse('6*8'); // 42
+var parser = new Parser(grammar);
+var val = parser.parse('6*8'); // 42
 ```
 
 Nesting grammars. Say the above simple math grammar was in a module called `math-grammar` and we had another one called `function-grammar`. We could create a new grammar that builds on both of those:
