@@ -3,8 +3,7 @@
  * Module dependencies.
  */
 
-var Expression = require('./lib/expression');
-var Parser = require('./lib/parser');
+var Expression = require('parsejs-expression');
 
 /**
  * Expose `Grammar`.
@@ -24,7 +23,6 @@ function Grammar(name) {
   this.name = name;
   this.expressions = {};
   this.expression = this.expression.bind(this);
-  // this.root = new ExpressionToken(name);
 }
 
 /**
@@ -52,18 +50,4 @@ Grammar.prototype.expression = function(name){
   this.expressions[exp.name] = exp;
   if (this.name == exp.name) this.root = exp;
   return exp;
-};
-
-/**
- * Parse a string.
- *
- * It's up to the grammar on what gets returned.
- * Potentially this should allow for streaming.
- *
- * @param {String} str
- * @api public
- */
-
-Grammar.prototype.parse = function(str){
-  return (new Parser(this)).parse(str);
 };

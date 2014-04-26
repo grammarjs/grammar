@@ -1,12 +1,12 @@
 {
-  "name": "parsejs-expression",
+  "name": "parsejs-grammar",
   "version": "0.0.1",
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "http://github.com/parsejs/expression.git"
+    "url": "http://github.com/parsejs/grammar.git"
   },
   "dependencies": {
-    "component-type": "~1.0.0"
+    "parsejs-expression": "*"
   }
 }

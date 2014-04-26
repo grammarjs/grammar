@@ -4,17 +4,15 @@
   "description": "Expression parser",
   "version": "0.1.3",
   "keywords": ["peg", "parsing", "expression", "grammar"],
+  "dependencies": {
+    "parsejs-expression": "*"
+  },
   "development": {
     "component/assert": "*",
     "visionmedia/mocha": "*"
   },
   "scripts": [
-    "index.js",
-    "lib/expression.js",
-    "lib/frame.js",
-    "lib/rule.js",
-    "lib/parser.js",
-    "lib/token.js"
+    "index.js"
   ],
   "license": "MIT"
 }
