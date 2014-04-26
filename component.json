@@ -12,7 +12,7 @@
     "index.js",
     "lib/expression.js",
     "lib/frame.js",
-    "lib/matcher.js",
+    "lib/rule.js",
     "lib/parser.js",
     "lib/token.js"
   ],

@@ -65,7 +65,7 @@ describe('expression', function(){
 
   it('should handle :expression*');
   it('should handle :expression?');
-  it('should handle :nested:expression');
+  it('should handle :grammar:expression');
   it('should handle /\\d+/');
 
   // it('should define nested expressions', function(){
