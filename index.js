@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var Expression = require('parsejs-expression');
+var Expression = require('grammarjs-expression');
 
 /**
  * Expose `Grammar`.

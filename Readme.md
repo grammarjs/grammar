@@ -5,13 +5,13 @@ PEG-like expression builder for JavaScript. <1kb.
 ## Installation
 
 ```
-$ npm install parsejs-grammar
+$ npm install grammarjs-grammar
 ```
 
 browser:
 
 ```
-$ component install parsejs/grammar
+$ component install grammarjs/grammar
 ```
 
 ## Features
@@ -31,8 +31,8 @@ You can nest grammars, and so build on top of them easily!
 ## Examples
 
 ```js
-var Grammar = require('parsejs-grammar');
-var Parser = require('parsejs-recursive-parser');
+var Grammar = require('grammarjs-grammar');
+var Parser = require('grammarjs-recursive-parser');
 var grammar = new Grammar('math');
 var expression = grammar.expression;
 
@@ -64,7 +64,7 @@ Nesting grammars. Say the above simple math grammar was in a module called `math
 ```js
 var math = require('math-grammar');
 var fn = require('function-grammar');
-var Grammar = require('parsejs-grammar');
+var Grammar = require('grammarjs-grammar');
 
 var grammar = new Grammar('foo');
 grammar.use(math);

@@ -1,11 +1,11 @@
 {
   "name": "expression",
-  "repo": "parsejs/grammar",
+  "repo": "grammarjs/grammar",
   "description": "Parsing expression grammar (PEG)",
   "version": "0.1.0",
   "keywords": ["peg", "parsing", "expression", "grammar"],
   "dependencies": {
-    "parsejs/expression": "*"
+    "grammarjs/expression": "*"
   },
   "development": {
     "component/assert": "*",
