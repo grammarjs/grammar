@@ -1,6 +1,6 @@
 {
   "name": "grammarjs-grammar",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "./index.js",
   "keywords": ["peg", "parsing", "expression", "grammar"],
   "repository": {
@@ -8,6 +8,6 @@
     "url": "http://github.com/grammarjs/grammar.git"
   },
   "dependencies": {
-    "grammarjs-expression": "*"
+    "grammarjs-expression": "0.1.2"
   }
 }

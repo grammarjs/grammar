@@ -3,7 +3,7 @@ if ('undefined' === typeof window) {
   var Grammar = require('..');
   var assert = require('assert');
 } else {
-  var Grammar = require('parsejs-grammar');
+  var Grammar = require('grammarjs-grammar');
   var assert = require('component-assert');
 }
 
