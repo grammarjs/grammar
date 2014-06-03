@@ -1,8 +1,8 @@
 {
-  "name": "expression",
+  "name": "grammar",
   "repo": "grammarjs/grammar",
   "description": "Parsing expression grammar (PEG)",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "keywords": ["peg", "parsing", "expression", "grammar"],
   "dependencies": {
     "grammarjs/expression": "0.1.2"
@@ -13,6 +13,9 @@
   },
   "scripts": [
     "index.js"
+  ],
+  "demo": [
+    "http://grammarjs.github.io/grammar/"
   ],
   "license": "MIT"
 }
