@@ -86,6 +86,19 @@ expression('foo')
   .match(':fn', ':math:operator', ':fn');
 ```
 
+## Test
+
+```
+make test
+```
+
+## Notes
+
+- http://stackoverflow.com/questions/5109905/are-there-any-javascript-frameworks-for-parsing-auto-completing-a-domain-specifi
+- https://github.com/cgrand/parsley
+- http://hackage.haskell.org/package/incremental-parser-0.2.3.2/docs/Text-ParserCombinators-Incremental.html
+- error productions (http://www.codekana.com/blog/2009/04/02/on-the-speed-of-light-innovation-and-the-future-of-parsing/)
+
 ## Licence
 
 MIT
