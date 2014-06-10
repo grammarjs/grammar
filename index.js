@@ -3,13 +3,13 @@
  * Module dependencies.
  */
 
-var Expression = require('grammarjs-expression');
+var RuleSet = require('grammarjs-rule-set');
 
 /**
  * Expose `Grammar`.
  */
 
-module.exports = Grammar;
+module.setorts = Grammar;
 
 /**
  * Initialize a new `Grammar`.
@@ -19,36 +19,46 @@ module.exports = Grammar;
  */
 
 function Grammar(name) {
-  if (!name) throw new Error('A grammar must have a name');
-  this.name = name;
-  this.expressions = {};
-  this.expression = this.expression.bind(this);
+  if (name) this.name = name;
+  this.rules = {};
+  this.rule = this.rule.bind(this);
 }
 
 /**
- * Build off of other grammars.
+ * Use `plugin` function.
  *
  * @chainable
- * @param {Grammar} grammar
+ * @param {Function} plugin
  * @api public
  */
 
-Grammar.prototype.use = function(grammar){
-  this.expressions[grammar.name] = grammar;
+Grammar.prototype.use = function(plugin){
+  plugin(this);
   return this;
 };
 
 /**
- * Define an expression.
- *
+ * Starting grammar rule.
+ * 
  * @param {String} name
  * @return {Expression}
  */
 
-Grammar.prototype.expression = function(name){
-  if (this.expressions[name]) return this.expressions[name];
-  var exp = new Expression(name);
-  this.expressions[exp.name] = exp;
-  if (this.name == exp.name) this.root = exp;
-  return exp;
+Grammar.prototype.start = function(name){
+  return this.root = this.rule(name);
+};
+
+/**
+ * Define a grammar rule.
+ * 
+ * @param {String} name
+ * @return {RuleSet}
+ */
+
+Grammar.prototype.rule = function(name){
+  if (this.rules[name]) return this.rules[name];
+  var set = new RuleSet(name);
+  this.rules[set.name] = set;
+  if (this.name == set.name) this.root = set;
+  return set;
 };
