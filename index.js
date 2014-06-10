@@ -9,7 +9,7 @@ var RuleSet = require('grammarjs-rule-set');
  * Expose `Grammar`.
  */
 
-module.setorts = Grammar;
+module.exports = Grammar;
 
 /**
  * Initialize a new `Grammar`.

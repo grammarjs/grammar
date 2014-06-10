@@ -2,7 +2,7 @@
   "name": "grammar",
   "repo": "grammarjs/grammar",
   "description": "Parsing expression grammar (PEG)",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "keywords": ["peg", "parsing", "expression", "grammar"],
   "dependencies": {
     "grammarjs/rule-set": "0.1.4"
