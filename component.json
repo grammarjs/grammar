@@ -2,10 +2,10 @@
   "name": "grammar",
   "repo": "grammarjs/grammar",
   "description": "Parsing expression grammar (PEG)",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "keywords": ["peg", "parsing", "expression", "grammar"],
   "dependencies": {
-    "grammarjs/expression": "0.1.2"
+    "grammarjs/rule-set": "0.1.4"
   },
   "development": {
     "component/assert": "*",

@@ -8,9 +8,16 @@ if ('undefined' === typeof window) {
 }
 
 describe('grammar', function(){
-  it('should define root expression', function(){
+  it('should define root rule', function(){
     var grammar = new Grammar('math');
-    grammar.expression('math').match('+');
+    grammar.rule('math').match('+');
     assert(grammar.root);
+  });
+
+  it('should support setting `.start` rule', function(){
+    var grammar = new Grammar('math');
+    grammar.rule('add').match('+');
+    grammar.start('add');
+    assert(grammar.root == grammar.rule('add'));
   });
 });
