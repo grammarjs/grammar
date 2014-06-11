@@ -1,5 +1,7 @@
 # Parsing Expression Grammar
 
+[![Build Status](https://travis-ci.org/grammarjs/grammar.svg)](https://travis-ci.org/grammarjs/grammar)
+
 PEG-like expression builder for JavaScript. <1kb.
 
 ## Installation
