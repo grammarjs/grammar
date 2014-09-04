@@ -58,7 +58,7 @@ expression('operator')
   .match('/');
 
 var parser = new Parser(grammar);
-var val = parser.parse('6*8'); // 42
+var val = parser.parse('6*8'); // 48
 ```
 
 Nesting grammars. Say the above simple math grammar was in a module called `math-grammar` and we had another one called `function-grammar`. We could create a new grammar that builds on both of those:
