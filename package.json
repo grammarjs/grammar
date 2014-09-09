@@ -1,6 +1,6 @@
 {
   "name": "grammarjs-grammar",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "./index.js",
   "description": "Parsing expression grammar (PEG)",
   "keywords": [
