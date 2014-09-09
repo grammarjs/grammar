@@ -1,15 +1,23 @@
 {
   "name": "grammarjs-grammar",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "main": "./index.js",
   "description": "Parsing expression grammar (PEG)",
-  "keywords": ["peg", "parsing", "expression", "grammar"],
+  "keywords": [
+    "peg",
+    "parsing",
+    "expression",
+    "grammar"
+  ],
   "repository": {
     "type": "git",
     "url": "http://github.com/grammarjs/grammar.git"
   },
   "dependencies": {
-    "grammarjs-rule-set": "0.1.4"
+    "component-type": "~1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^1.21.4"
   },
   "scripts": {
     "test": "make test"
