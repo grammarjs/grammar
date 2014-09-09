@@ -31,9 +31,48 @@ describe('grammar', function(){
       assert(symbol.isRegExp);
     });
 
-    it('should support :expression', function(){
-      var symbol = new Symbol(':custom');
-      assert(symbol.isExpression);
+    describe('expression', function(){
+      it('should support', function(){
+        var symbol = new Symbol(':custom');
+        assert(symbol.isExpression);
+      });
+
+      it('should support !', function(){
+        var symbol = new Symbol('!:custom');
+        assert(symbol.isExpression);
+        assert(symbol.notMatchAndIgnore);
+      });
+
+      it('should support &', function(){
+        var symbol = new Symbol('&:custom');
+        assert(symbol.isExpression);
+        assert(symbol.matchAndIgnore);
+      });
+
+      it('should support *', function(){
+        var symbol = new Symbol(':custom*');
+        assert(symbol.isExpression);
+        assert(symbol.zeroPlus);
+      });
+
+      it('should support +', function(){
+        var symbol = new Symbol(':custom+');
+        assert(symbol.isExpression);
+        assert(symbol.onePlus);
+      });
+
+      it('should support ?', function(){
+        var symbol = new Symbol(':custom?');
+        assert(symbol.isExpression);
+        assert(symbol.optional);
+      });
+
+      it('should support complex ones', function(){
+        var symbol = new Symbol('&:custom.name+');
+        assert(symbol.isExpression);
+        assert(symbol.matchAndIgnore);
+        assert(symbol.onePlus);
+      });
     });
   });
 
