@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var RuleSet = require('grammarjs-rule-set');
+var RuleSet = require('./lib/rule-set');
 
 /**
  * Expose `Grammar`.
