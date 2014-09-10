@@ -53,6 +53,12 @@ describe('symbol', function(){
       assert(symbol.optional);
     });
 
+    it('should support $', function(){
+      var symbol = new Symbol('$:custom');
+      assert(symbol.isExpression);
+      assert(symbol.returnsString);
+    });
+
     it('should support complex ones', function(){
       var symbol = new Symbol('&:custom.name+');
       assert(symbol.isExpression);
