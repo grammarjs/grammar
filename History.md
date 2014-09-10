@@ -1,4 +1,10 @@
 
+0.4.0 / 2014-09-10
+==================
+
+ * make all `.match` calls return tokens, so you don't need to pass functions by default.
+ * however, `match` only contains simple strings, it will just return those as strings, not tokens. these are then "leaf" nodes.
+
 0.3.2 / 2014-09-09
 ==================
 
