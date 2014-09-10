@@ -95,12 +95,73 @@ expression('foo')
 make test
 ```
 
+## Selectors
+
+```
+punctuation
+punctuation.whitespace
+punctuation.definition
+literal
+literal.string
+literal.string.quote
+literal.string.quote.double
+literal.string.quote.single
+literal.string
+literal.number.integer
+literal.number.decimal
+literal.boolean
+literal.boolean
+keyword.control
+keyword.other.var
+keyword.operator
+keyword.operator.gte
+keyword.operator.percent
+comment
+comment.line
+comment.line.dash
+comment.line.dash.double
+comment.line.percent
+comment.block
+type.struct (or entity?)
+type.function
+type.object
+type.array
+type.tag
+type.pointer
+type.interface
+type.class
+type.channel
+type.map
+constant
+character.source
+character.unicode
+expression
+expression.assignment
+statement
+statement.if
+statement.switch
+statement.continue
+statement.debugger
+statement.for
+statement.while
+statement.return
+operator
+delimiter https://golang.org/ref/spec
+declaration
+declaration.variable
+declaration.class
+declaration.type
+declaration.function
+support
+```
+
 ## Notes
 
 - http://stackoverflow.com/questions/5109905/are-there-any-javascript-frameworks-for-parsing-auto-completing-a-domain-specifi
 - https://github.com/cgrand/parsley
 - http://hackage.haskell.org/package/incremental-parser-0.2.3.2/docs/Text-ParserCombinators-Incremental.html
 - error productions (http://www.codekana.com/blog/2009/04/02/on-the-speed-of-light-innovation-and-the-future-of-parsing/)
+- http://manual.macromates.com/en/language_grammars
 
 ## Licence
 
