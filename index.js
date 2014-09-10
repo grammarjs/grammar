@@ -19,6 +19,7 @@ module.exports = Grammar;
  */
 
 function Grammar(name) {
+  if (!(this instanceof Grammar)) return new Grammar(name);
   if (name) this.name = name;
   this.rules = {};
   this.rule = this.rule.bind(this);
