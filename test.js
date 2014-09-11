@@ -1,9 +1,9 @@
 
-var Grammar = require('..');
-var RuleSet = require('../lib/rule-set');
-var Symbol = require('../lib/symbol');
-var Token = require('../lib/token');
-var Rule = require('../lib/rule');
+var Grammar = require('./');
+var RuleSet = require('./lib/rule-set');
+var Symbol = require('./lib/symbol');
+var Token = require('./lib/token');
+var Rule = require('./lib/rule');
 var assert = require('assert');
 
 describe('symbol', function(){
