@@ -1,4 +1,11 @@
 
+0.5.0 / 2014-09-10
+==================
+
+ * refactored token so it now has special types, which makes it easier to build the parse tree. we can come back to it later and change/simplify how it works before 1.0
+ * simplify test setup
+ * remove component.json and npmignore for now
+
 0.4.0 / 2014-09-10
 ==================
 
