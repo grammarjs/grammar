@@ -34,61 +34,7 @@ You can nest grammars, and so build on top of them easily!
 
 ## Examples
 
-```js
-var Grammar = require('grammarjs-grammar');
-var Parser = require('grammarjs-recursive-parser');
-var grammar = new Grammar('math');
-var expression = grammar.expression;
-
-expression('math')
-  .match(':number', ':operator', ':number', function(left, operator, right){
-    switch (operator) {
-      case '+': return left + right;
-      case '-': return left - right;
-      case '*': return left * right;
-      case '/': return left / right;
-    }
-  });
-
-expression('number')
-  .match(/\d+/, parseInt);
-
-expression('operator')
-  .match('+')
-  .match('-')
-  .match('*')
-  .match('/');
-
-var parser = new Parser(grammar);
-var val = parser.parse('6*8'); // 48
-```
-
-Nesting grammars. Say the above simple math grammar was in a module called `math-grammar` and we had another one called `function-grammar`. We could create a new grammar that builds on both of those:
-
-```js
-var math = require('math-grammar');
-var fn = require('function-grammar');
-var Grammar = require('grammarjs-grammar');
-
-var grammar = new Grammar('foo');
-grammar.use(math);
-grammar.use(fn);
-```
-
-Then you could use their names in your grammar:
-
-```js
-expression('foo')
-  .match(':math')
-  .match(':fn');
-```
-
-Or just use a subset of them:
-
-```js
-expression('foo')
-  .match(':fn', ':math:operator', ':fn');
-```
+See the [tests](https://github.com/grammarjs/recursive-parser/blob/master/test/index.js) for examples. Basically, in building a grammar, you are just building a Concrete Syntax Tree. This can be used for syntax highlighting, linting, and lots of other things. The next goal is to then find a standard mapping of the CST to the AST (Abstract Syntax Tree). This way you can define a grammar once, use it in an editor if you want, and also convert it to executable code.
 
 ## Test
 
