@@ -24,7 +24,7 @@ clean:
 #
 
 test: node_modules
-	@$(MOCHA) -R spec test/index.js
+	@$(MOCHA) -R spec test.js
 
 #
 # Phony targets.
