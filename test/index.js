@@ -56,7 +56,7 @@ describe('symbol', function(){
     it('should support $', function(){
       var symbol = new Symbol('$:custom');
       assert(symbol.isExpression);
-      assert(symbol.returnsString);
+      assert(symbol.returnChild);
     });
 
     it('should support complex ones', function(){
@@ -70,12 +70,12 @@ describe('symbol', function(){
 
 describe('rule', function(){
   it('should test', function(){
-    var rule = new Rule([ 'a', 'b' ], args);
+    var rule = new Rule('something', [ 'a', 'b' ], args);
     assert(3 == rule.symbols.length);
   });
 
   it('should support +', function(){
-    var rule = new Rule([ /\d+/, '+', /\d/ ], args);
+    var rule = new Rule('something', [ /\d+/, '+', /\d/ ], args);
     assert(4 == rule.symbols.length);
   });
 });
